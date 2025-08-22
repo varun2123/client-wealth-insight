@@ -78,7 +78,7 @@ export const ExcelUpload = ({ onDataLoaded, onClose }: ExcelUploadProps) => {
       symbol: row.Symbol || row.symbol || '',
       name: row.Name || row.name || row.Company || '',
       quantity: parseFloat(row.Quantity || row.quantity || 0),
-      averagePrice: parseFloat(row['Average Price'] || row.averagePrice || row['Avg Price'] || 0),
+      buyPrice: parseFloat(row['Buy Price'] || row.buyPrice || row['Buy Price'] || 0),
       currentPrice: parseFloat(row['Current Price'] || row.currentPrice || row.Price || 0),
       marketValue: parseFloat(row['Market Value'] || row.marketValue || 0),
       bookValue: parseFloat(row['Book Value'] || row.bookValue || 0),

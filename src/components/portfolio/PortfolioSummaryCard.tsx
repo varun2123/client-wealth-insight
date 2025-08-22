@@ -29,9 +29,14 @@ export const PortfolioSummaryCard = ({ portfolio }: PortfolioSummaryCardProps) =
           <DollarSign className="h-4 w-4 text-primary" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-foreground">
-            {formatCurrency(portfolio.totalValue)}
-          </div>
+<div className="text-2xl font-bold text-foreground">
+  {formatCurrency(
+    portfolio.totalValue -
+      portfolio.cashBalances.reduce((sum, cb) => sum + cb.balance, 0)
+  )}
+</div>
+
+
           <p className="text-xs text-muted-foreground">
             Cost basis: {formatCurrency(portfolio.totalCost)}
           </p>

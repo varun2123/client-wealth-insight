@@ -19,7 +19,7 @@ import {
 } from "@/utils/mockData";
 import { Position, Trade, CashBalance } from "@/types/portfolio";
 import { toast } from "sonner";
-
+import { applyTradeToPortfolio } from "@/utils/mockData";
 const Index = () => {
   const [positions, setPositions] = useState<Position[]>(mockPositions);
   const [trades, setTrades] = useState<Trade[]>(mockTrades);
@@ -39,13 +39,32 @@ const Index = () => {
     setShowExcelUpload(false);
   };
 
-  const handleTradeAdd = (newTrade: Omit<Trade, 'id'>) => {
-    const trade: Trade = {
-      ...newTrade,
-      id: `trade-${Date.now()}`,
-    };
-    setTrades([trade, ...trades]);
+  
+
+const handleTradeAdd = (newTrade: Omit<Trade, "id">) => {
+  const trade: Trade = {
+    ...newTrade,
+    id: `trade-${Date.now()}`,
   };
+
+  const { positions: newPositions, cashBalances: newCash } = applyTradeToPortfolio(
+    positions,
+    cashBalances,
+    trade
+  );
+
+  setTrades([trade, ...trades]);
+  setPositions(newPositions);
+  setCashBalances(newCash);
+};
+
+  // const handleTradeAdd = (newTrade: Omit<Trade, 'id'>) => {
+  //   const trade: Trade = {
+  //     ...newTrade,
+  //     id: `trade-${Date.now()}`,
+  //   };
+  //   setTrades([trade, ...trades]);
+  // };
 
   return (
     <div className="min-h-screen bg-background">

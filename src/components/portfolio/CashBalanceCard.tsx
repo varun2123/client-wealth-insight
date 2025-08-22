@@ -25,9 +25,7 @@ export const CashBalanceCard = ({ balances }: CashBalanceCardProps) => {
   };
 
   const totalUSD = balances.reduce((total, balance) => {
-    // Simple conversion assuming 1:1 for demo - in real app, use actual exchange rates
-    const rate = balance.currency === 'EUR' ? 1.1 : balance.currency === 'GBP' ? 1.25 : 1;
-    return total + (balance.balance * rate);
+    return total + balance.balance;
   }, 0);
 
   return (
@@ -60,11 +58,11 @@ export const CashBalanceCard = ({ balances }: CashBalanceCardProps) => {
               </div>
               <div className="text-right">
                 <div className="font-semibold text-foreground">
-                  {formatCurrency(balance.balance, balance.currency)}
+                  {formatCurrency(balance.balance, 'USD')}
                 </div>
                 {balance.reservedBalance > 0 && (
                   <div className="text-xs text-warning">
-                    Reserved: {formatCurrency(balance.reservedBalance, balance.currency)}
+                    {/* Reserved: {formatCurrency(balance.reservedBalance, balance.currency)} */}
                   </div>
                 )}
               </div>

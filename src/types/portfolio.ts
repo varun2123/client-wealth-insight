@@ -3,7 +3,7 @@ export interface Position {
   symbol: string;
   name: string;
   quantity: number;
-  averagePrice: number;
+  buyPrice: number;
   currentPrice: number;
   marketValue: number;
   bookValue: number;
@@ -82,3 +82,10 @@ export interface PriceData {
   changePercent: number;
   timestamp: string;
 }
+
+export const exchangeRates = {
+  // usdToEur: 0.85,
+  EurTousd:1.15,
+  GbpTousd:1.34,
+  // usdToGbp: 0.75,
+};

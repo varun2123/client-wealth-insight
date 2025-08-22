@@ -1,4 +1,6 @@
-import { Position, Trade, CashBalance, PortfolioSummary, RiskMetrics, BenchmarkComparison } from "@/types/portfolio";
+import { Position, Trade, CashBalance, PortfolioSummary, RiskMetrics, BenchmarkComparison, exchangeRates  } from "@/types/portfolio";
+const EurTousd = exchangeRates.EurTousd;
+const GbpTousd = exchangeRates.GbpTousd;
 
 export const mockPositions: Position[] = [
   {
@@ -6,8 +8,8 @@ export const mockPositions: Position[] = [
     symbol: "AAPL",
     name: "Apple Inc.",
     quantity: 100,
-    averagePrice: 150.00,
-    currentPrice: 175.50,
+    buyPrice: 150.0,
+    currentPrice: 175.5,
     marketValue: 17550,
     bookValue: 15000,
     unrealizedPnL: 2550,
@@ -27,7 +29,7 @@ export const mockPositions: Position[] = [
     symbol: "MSFT",
     name: "Microsoft Corporation",
     quantity: 75,
-    averagePrice: 280.00,
+    buyPrice: 280.0,
     currentPrice: 310.25,
     marketValue: 23268.75,
     bookValue: 21000,
@@ -48,8 +50,8 @@ export const mockPositions: Position[] = [
     symbol: "GOOGL",
     name: "Alphabet Inc.",
     quantity: 50,
-    averagePrice: 120.00,
-    currentPrice: 135.80,
+    buyPrice: 120.0,
+    currentPrice: 135.8,
     marketValue: 6790,
     bookValue: 6000,
     unrealizedPnL: 790,
@@ -69,13 +71,13 @@ export const mockPositions: Position[] = [
     symbol: "TSLA",
     name: "Tesla Inc.",
     quantity: 25,
-    averagePrice: 200.00,
-    currentPrice: 185.30,
-    marketValue: 4632.50,
+    buyPrice: 200.0,
+    currentPrice: 185.3,
+    marketValue: 4632.5,
     bookValue: 5000,
-    unrealizedPnL: -367.50,
+    unrealizedPnL: -367.5,
     realizedPnL: 0,
-    totalReturn: -367.50,
+    totalReturn: -367.5,
     totalReturnPercent: -7.35,
     currency: "USD",
     sector: "Consumer Discretionary",
@@ -90,20 +92,20 @@ export const mockPositions: Position[] = [
     symbol: "SPY",
     name: "SPDR S&P 500 ETF Trust",
     quantity: 100,
-    averagePrice: 420.00,
-    currentPrice: 445.60,
+    buyPrice: 420.0,
+    currentPrice: 445.6,
     marketValue: 44560,
     bookValue: 42000,
     unrealizedPnL: 2560,
     realizedPnL: 0,
     totalReturn: 2560,
-    totalReturnPercent: 6.10,
+    totalReturnPercent: 6.1,
     currency: "USD",
     sector: "ETF",
     assetClass: "Equity",
     purchaseDate: "2023-04-01",
     holdingPeriod: 295,
-    beta: 1.00,
+    beta: 1.0,
     delta: 0.95,
   },
 ];
@@ -159,27 +161,60 @@ export const mockCashBalances: CashBalance[] = [
   },
   {
     currency: "EUR",
-    balance: 25000.00,
-    availableBalance: 25000.00,
-    reservedBalance: 0.00,
+    balance: parseFloat((125000.00 * EurTousd).toFixed(2)),
+    availableBalance: parseFloat((120000.00 * EurTousd).toFixed(2)),
+    reservedBalance: parseFloat((5000.00 * EurTousd).toFixed(2)),
   },
   {
     currency: "GBP",
-    balance: 15000.00,
-    availableBalance: 12000.00,
-    reservedBalance: 3000.00,
+    balance: parseFloat((125000.00 * GbpTousd).toFixed(2)),
+    availableBalance: parseFloat((120000.00 * GbpTousd).toFixed(2)),
+    reservedBalance: parseFloat((5000.00 * GbpTousd).toFixed(2)),
   },
 ];
 
-export const mockRiskMetrics: RiskMetrics = {
-  portfolioBeta: 1.12,
-  portfolioDelta: 0.68,
-  sharpeRatio: 1.25,
-  volatility: 18.5,
-  var95: -2.5,
-  maxDrawdown: -12.3,
-  correlation: 0.85,
-};
+function calculateRiskMetrics(positions: Position[]): RiskMetrics {
+  const totalMarketValue = positions.reduce((sum, pos) => sum + pos.marketValue, 0);
+
+  // Portfolio Beta
+  const portfolioBeta = positions.reduce((sum, pos) => sum + pos.beta * pos.marketValue, 0) / totalMarketValue;
+
+  // Portfolio Delta
+  const portfolioDelta = positions.reduce((sum, pos) => sum + pos.delta * pos.marketValue, 0) / totalMarketValue;
+
+  // Portfolio Return (use totalReturnPercent weighted by market value)
+  const portfolioReturn = positions.reduce((sum, pos) => sum + pos.totalReturnPercent * pos.marketValue, 0) / totalMarketValue;
+
+  // Volatility (std dev of totalReturnPercent)
+  const meanReturn = portfolioReturn;
+  const variance = positions.reduce((sum, pos) => sum + Math.pow(pos.totalReturnPercent - meanReturn, 2), 0) / positions.length;
+  const volatility = Math.sqrt(variance);
+
+  // Sharpe Ratio (assume risk-free rate = 0)
+  const sharpeRatio = volatility !== 0 ? portfolioReturn / volatility : 0;
+
+  // VaR 95%
+  const var95 = -1.65 * volatility;
+
+  // Max Drawdown (min of totalReturnPercent)
+  const maxDrawdown = Math.min(...positions.map(pos => pos.totalReturnPercent));
+
+  // Correlation (average beta / portfolio beta)
+  const avgBeta = positions.reduce((sum, pos) => sum + pos.beta, 0) / positions.length;
+  const correlation = portfolioBeta !== 0 ? avgBeta / portfolioBeta : 0;
+
+  return {
+    portfolioBeta: Number(portfolioBeta.toFixed(2)),
+    portfolioDelta: Number(portfolioDelta.toFixed(2)),
+    sharpeRatio: Number(sharpeRatio.toFixed(2)),
+    volatility: Number(volatility.toFixed(2)),
+    var95: Number(var95.toFixed(2)),
+    maxDrawdown: Number(maxDrawdown.toFixed(2)),
+    correlation: Number(correlation.toFixed(2)),
+  };
+}
+
+export const mockRiskMetrics: RiskMetrics = calculateRiskMetrics(mockPositions);
 
 export const mockBenchmarkComparisons: BenchmarkComparison[] = [
   {
@@ -224,4 +259,97 @@ export const generateMockPortfolioSummary = (positions: Position[], cashBalances
     positions,
     recentTrades: mockTrades.slice(0, 5),
   };
+};
+
+export const applyTradeToPortfolio = (
+  positions: Position[],
+  cashBalances: CashBalance[],
+  trade: Trade
+): { positions: Position[]; cashBalances: CashBalance[] } => {
+  let updatedPositions = [...positions];
+  let updatedCashBalances = [...cashBalances];
+
+  const cash = updatedCashBalances.find(c => c.currency === trade.currency);
+  if (!cash) {
+    updatedCashBalances.push({
+      currency: trade.currency,
+      balance: 0,
+      availableBalance: 0,
+      reservedBalance: 0,
+    });
+  }
+
+  if (trade.type === "BUY") {
+    // Update cash
+    updatedCashBalances = updatedCashBalances.map(c =>
+      c.currency === trade.currency
+        ? { ...c, balance: c.balance - trade.amount }
+        : c
+    );
+
+    // Update or add position
+    const posIndex = updatedPositions.findIndex(p => p.symbol === trade.symbol);
+    if (posIndex >= 0) {
+      const pos = updatedPositions[posIndex];
+      const newQuantity = pos.quantity + trade.quantity;
+      const newBookValue = pos.bookValue + trade.amount;
+      updatedPositions[posIndex] = {
+        ...pos,
+        quantity: newQuantity,
+        bookValue: newBookValue,
+        buyPrice: newBookValue / newQuantity,
+      };
+    } else {
+      updatedPositions.push({
+        id: `pos-${Date.now()}`,
+        symbol: trade.symbol,
+        name: trade.symbol,
+        quantity: trade.quantity,
+        buyPrice: trade.price,
+        currentPrice: trade.price,
+        marketValue: trade.amount,
+        bookValue: trade.amount,
+        unrealizedPnL: 0,
+        realizedPnL: 0,
+        totalReturn: 0,
+        totalReturnPercent: 0,
+        currency: trade.currency,
+        sector: "Unknown",
+        assetClass: "Equity",
+        purchaseDate: trade.tradeDate,
+        holdingPeriod: 0,
+        beta: 1,
+        delta: 0,
+      });
+    }
+  } else if (trade.type === "SELL") {
+    // Update cash
+    updatedCashBalances = updatedCashBalances.map(c =>
+      c.currency === trade.currency
+        ? { ...c, balance: c.balance + trade.amount }
+        : c
+    );
+
+    // Update position
+    const posIndex = updatedPositions.findIndex(p => p.symbol === trade.symbol);
+    if (posIndex >= 0) {
+      const pos = updatedPositions[posIndex];
+      const newQuantity = pos.quantity - trade.quantity;
+      const realizedPnL = (trade.price - pos.buyPrice) * trade.quantity;
+
+      if (newQuantity > 0) {
+        updatedPositions[posIndex] = {
+          ...pos,
+          quantity: newQuantity,
+          marketValue: newQuantity * pos.currentPrice,
+          realizedPnL: pos.realizedPnL + realizedPnL,
+        };
+      } else {
+        // If fully sold, remove position
+        updatedPositions.splice(posIndex, 1);
+      }
+    }
+  }
+
+  return { positions: updatedPositions, cashBalances: updatedCashBalances };
 };
