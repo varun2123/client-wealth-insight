@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { Upload, BarChart3, TrendingUp, Settings } from "lucide-react";
+import {BarChart3, TrendingUp, Settings, Download } from "lucide-react";
 
 interface HeaderProps {
   onFileUpload: () => void;
+  onDownload?: () => void;
   clientName?: string;
 }
 
-export const Header = ({ onFileUpload, clientName = "Global Wealth Client" }: HeaderProps) => {
+export const Header = ({ onFileUpload, clientName = "Global Wealth Client" , onDownload}: HeaderProps) => {
   return (
     <header className="bg-gradient-card border-b border-border p-6">
       <div className="flex items-center justify-between">
@@ -21,14 +22,14 @@ export const Header = ({ onFileUpload, clientName = "Global Wealth Client" }: He
         
         <div className="flex items-center gap-4">
           <Button
-            onClick={onFileUpload}
+            onClick={() => window.open("/pdf", "_blank")}
             className="bg-gradient-primary text-primary-foreground hover:opacity-90 font-semibold"
           >
-            <Upload className="w-4 h-4 mr-2" />
-            Upload Excel Data
+            <Download className="w-4 h-4 mr-2" />
+            Download Portfolio
           </Button>
           
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon">
               <BarChart3 className="w-5 h-5" />
             </Button>
@@ -38,7 +39,7 @@ export const Header = ({ onFileUpload, clientName = "Global Wealth Client" }: He
             <Button variant="ghost" size="icon">
               <Settings className="w-5 h-5" />
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </header>

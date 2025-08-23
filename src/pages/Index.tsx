@@ -71,18 +71,19 @@ const handleTradeAdd = (newTrade: Omit<Trade, "id">) => {
       <Header 
         onFileUpload={() => setShowExcelUpload(true)}
         clientName="Global Wealth Management"
+        // onDownload={() => exportDashboardPDF()}
       />
       
-      <main className="container mx-auto px-6 py-8 space-y-8">
+      <main id="dashboard-container" className="container mx-auto px-6 py-8 space-y-8">
         <PortfolioSummaryCard portfolio={portfolioSummary} />
         
         <Tabs defaultValue="positions" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 bg-muted/30">
+          <TabsList className="grid w-full grid-cols-4 bg-muted/30">
             <TabsTrigger value="positions">Positions</TabsTrigger>
             <TabsTrigger value="analytics">Risk & Analytics</TabsTrigger>
             <TabsTrigger value="trading">Trading</TabsTrigger>
             <TabsTrigger value="benchmarks">Benchmarks</TabsTrigger>
-            <TabsTrigger value="integration">Integration</TabsTrigger>
+            {/* <TabsTrigger value="integration">Integration</TabsTrigger> */}
           </TabsList>
           
           <TabsContent value="positions" className="space-y-6">

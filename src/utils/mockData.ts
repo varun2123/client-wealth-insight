@@ -217,8 +217,81 @@ function calculateRiskMetrics(positions: Position[]): RiskMetrics {
 export const mockRiskMetrics: RiskMetrics = calculateRiskMetrics(mockPositions);
 
 export const mockBenchmarkComparisons: BenchmarkComparison[] = [
+  // ===== 1 Month =====
   {
-    benchmark: "S&P 500",
+    benchmark: "FTSE",
+    portfolioReturn: 2.1,
+    benchmarkReturn: 1.7,
+    alpha: 0.4,
+    beta: 1.08,
+    correlation: 0.82,
+    trackingError: 1.2,
+    informationRatio: 0.33,
+    period: "1M",
+  },
+  {
+    benchmark: "NASDAQ",
+    portfolioReturn: 2.6,
+    benchmarkReturn: 2.3,
+    alpha: 0.3,
+    beta: 1.02,
+    correlation: 0.88,
+    trackingError: 1.1,
+    informationRatio: 0.27,
+    period: "1M",
+  },
+
+  // ===== 3 Months =====
+  {
+    benchmark: "FTSE",
+    portfolioReturn: 5.4,
+    benchmarkReturn: 4.7,
+    alpha: 0.7,
+    beta: 1.10,
+    correlation: 0.84,
+    trackingError: 2.5,
+    informationRatio: 0.28,
+    period: "3M",
+  },
+  {
+    benchmark: "NASDAQ",
+    portfolioReturn: 6.2,
+    benchmarkReturn: 5.9,
+    alpha: 0.3,
+    beta: 1.04,
+    correlation: 0.90,
+    trackingError: 2.1,
+    informationRatio: 0.14,
+    period: "3M",
+  },
+
+  // ===== 6 Months =====
+  {
+    benchmark: "FTSE",
+    portfolioReturn: 8.9,
+    benchmarkReturn: 7.5,
+    alpha: 1.4,
+    beta: 1.11,
+    correlation: 0.86,
+    trackingError: 3.2,
+    informationRatio: 0.44,
+    period: "6M",
+  },
+  {
+    benchmark: "NASDAQ",
+    portfolioReturn: 10.3,
+    benchmarkReturn: 9.6,
+    alpha: 0.7,
+    beta: 1.06,
+    correlation: 0.91,
+    trackingError: 2.9,
+    informationRatio: 0.24,
+    period: "6M",
+  },
+
+  // ===== 1 Year =====
+  {
+    benchmark: "FTSE",
     portfolioReturn: 12.5,
     benchmarkReturn: 10.2,
     alpha: 2.3,
@@ -229,7 +302,7 @@ export const mockBenchmarkComparisons: BenchmarkComparison[] = [
     period: "1Y",
   },
   {
-    benchmark: "NASDAQ 100",
+    benchmark: "NASDAQ",
     portfolioReturn: 15.8,
     benchmarkReturn: 14.1,
     alpha: 1.7,
@@ -238,6 +311,30 @@ export const mockBenchmarkComparisons: BenchmarkComparison[] = [
     trackingError: 3.8,
     informationRatio: 0.45,
     period: "1Y",
+  },
+
+  // ===== 3 Years =====
+  {
+    benchmark: "FTSE",
+    portfolioReturn: 38.7,
+    benchmarkReturn: 32.4,
+    alpha: 6.3,
+    beta: 1.09,
+    correlation: 0.83,
+    trackingError: 5.6,
+    informationRatio: 1.13,
+    period: "3Y",
+  },
+  {
+    benchmark: "NASDAQ",
+    portfolioReturn: 46.2,
+    benchmarkReturn: 42.1,
+    alpha: 4.1,
+    beta: 1.07,
+    correlation: 0.89,
+    trackingError: 5.1,
+    informationRatio: 0.80,
+    period: "3Y",
   },
 ];
 

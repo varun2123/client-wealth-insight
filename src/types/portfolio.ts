@@ -64,7 +64,7 @@ export interface RiskMetrics {
 }
 
 export interface BenchmarkComparison {
-  benchmark: string;
+  benchmark: 'NASDAQ' | 'FTSE';
   portfolioReturn: number;
   benchmarkReturn: number;
   alpha: number;
