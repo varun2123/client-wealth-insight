@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Header } from "@/components/layout/Header";
 import { PortfolioSummaryCard } from "@/components/portfolio/PortfolioSummaryCard";
 import { PositionsTable } from "@/components/portfolio/PositionsTable";
@@ -15,11 +15,14 @@ import {
   mockRiskMetrics, 
   mockBenchmarkComparisons,
   mockTrades,
-  generateMockPortfolioSummary
+  generateMockPortfolioSummary,
+  applyTradeToPortfolio
 } from "@/utils/mockData";
 import { Position, Trade, CashBalance } from "@/types/portfolio";
-import { toast } from "sonner";
-import { applyTradeToPortfolio } from "@/utils/mockData";
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
+
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#845EC2", "#D65DB1"];
+
 const Index = () => {
   const [positions, setPositions] = useState<Position[]>(mockPositions);
   const [trades, setTrades] = useState<Trade[]>(mockTrades);
@@ -39,39 +42,40 @@ const Index = () => {
     setShowExcelUpload(false);
   };
 
-  
+  const handleTradeAdd = (newTrade: Omit<Trade, "id">) => {
+    const trade: Trade = {
+      ...newTrade,
+      id: `trade-${Date.now()}`,
+    };
 
-const handleTradeAdd = (newTrade: Omit<Trade, "id">) => {
-  const trade: Trade = {
-    ...newTrade,
-    id: `trade-${Date.now()}`,
+    const { positions: newPositions, cashBalances: newCash } = applyTradeToPortfolio(
+      positions,
+      cashBalances,
+      trade
+    );
+
+    setTrades([trade, ...trades]);
+    setPositions(newPositions);
+    setCashBalances(newCash);
   };
 
-  const { positions: newPositions, cashBalances: newCash } = applyTradeToPortfolio(
-    positions,
-    cashBalances,
-    trade
-  );
-
-  setTrades([trade, ...trades]);
-  setPositions(newPositions);
-  setCashBalances(newCash);
-};
-
-  // const handleTradeAdd = (newTrade: Omit<Trade, 'id'>) => {
-  //   const trade: Trade = {
-  //     ...newTrade,
-  //     id: `trade-${Date.now()}`,
-  //   };
-  //   setTrades([trade, ...trades]);
-  // };
+  // Aggregate portfolio allocation by asset class
+  const allocationData = useMemo(() => {
+    const grouped: Record<string, number> = {};
+    positions.forEach((pos) => {
+      grouped[pos.assetClass] = (grouped[pos.assetClass] || 0) + pos.marketValue;
+    });
+    return Object.entries(grouped).map(([assetClass, value]) => ({
+      name: assetClass,
+      value,
+    }));
+  }, [positions]);
 
   return (
     <div className="min-h-screen bg-background">
       <Header 
         onFileUpload={() => setShowExcelUpload(true)}
         clientName="Global Wealth Management"
-        // onDownload={() => exportDashboardPDF()}
       />
       
       <main id="dashboard-container" className="container mx-auto px-6 py-8 space-y-8">
@@ -88,6 +92,39 @@ const handleTradeAdd = (newTrade: Omit<Trade, "id">) => {
           
           <TabsContent value="positions" className="space-y-6">
             <PositionsTable positions={positions} />
+
+            {/* Allocation Pie Chart below table */}
+            <div className="p-6 bg-card rounded-2xl shadow">
+              <h3 className="text-lg font-semibold mb-4">Portfolio Allocation by Asset Class</h3>
+              <div className="w-full h-80">
+                <ResponsiveContainer>
+                  <PieChart>
+<Pie
+  data={allocationData}
+  dataKey="value"
+  nameKey="name"
+  cx="50%"
+  cy="50%"
+  outerRadius={120}
+  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(1)}%`}
+>
+  {allocationData.map((entry, index) => (
+    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+  ))}
+</Pie>
+<Tooltip
+  formatter={(value: number, name: string, props) => {
+    const total = allocationData.reduce((acc, entry) => acc + entry.value, 0);
+    const percent = (value / total) * 100;
+    return [`${percent.toFixed(2)}%`, name];
+  }}
+/>
+
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
           </TabsContent>
           
           <TabsContent value="analytics" className="space-y-6">

@@ -37,9 +37,9 @@ export const PortfolioSummaryCard = ({ portfolio }: PortfolioSummaryCardProps) =
 </div>
 
 
-          <p className="text-xs text-muted-foreground">
+          {/* <p className="text-xs text-muted-foreground">
             Cost basis: {formatCurrency(portfolio.totalCost)}
-          </p>
+          </p> */}
         </CardContent>
       </Card>
 

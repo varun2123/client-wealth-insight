@@ -3,110 +3,373 @@ const EurTousd = exchangeRates.EurTousd;
 const GbpTousd = exchangeRates.GbpTousd;
 
 export const mockPositions: Position[] = [
+  // --- Equity ---
   {
     id: "1",
-    symbol: "AAPL",
     name: "Apple Inc.",
-    quantity: 100,
-    buyPrice: 150.0,
-    currentPrice: 175.5,
-    marketValue: 17550,
-    bookValue: 15000,
-    unrealizedPnL: 2550,
+    symbol: "AAPL",
+    assetClass: "Equity",
+    quantity: 50,
+    buyPrice: 145,
+    currentPrice: 150,
+    marketValue: 7500,
+    bookValue: 7250,
+    unrealizedPnL: 250,
     realizedPnL: 0,
-    totalReturn: 2550,
-    totalReturnPercent: 17.0,
+    totalReturn: 250,
+    totalReturnPercent: 3.45,
     currency: "USD",
     sector: "Technology",
-    assetClass: "Equity",
-    purchaseDate: "2023-06-15",
+    purchaseDate: "2024-01-15",
     holdingPeriod: 220,
-    beta: 1.25,
-    delta: 0.65,
+    beta: 1.2,
   },
   {
     id: "2",
+    name: "Microsoft Corp.",
     symbol: "MSFT",
-    name: "Microsoft Corporation",
-    quantity: 75,
-    buyPrice: 280.0,
-    currentPrice: 310.25,
-    marketValue: 23268.75,
-    bookValue: 21000,
-    unrealizedPnL: 2268.75,
-    realizedPnL: 500,
-    totalReturn: 2768.75,
-    totalReturnPercent: 13.18,
+    assetClass: "Equity",
+    quantity: 30,
+    buyPrice: 300,
+    currentPrice: 320,
+    marketValue: 9600,
+    bookValue: 9000,
+    unrealizedPnL: 600,
+    realizedPnL: 0,
+    totalReturn: 600,
+    totalReturnPercent: 6.67,
     currency: "USD",
     sector: "Technology",
-    assetClass: "Equity",
-    purchaseDate: "2023-05-10",
-    holdingPeriod: 256,
+    purchaseDate: "2024-02-10",
+    holdingPeriod: 190,
     beta: 0.95,
-    delta: 0.72,
   },
   {
     id: "3",
-    symbol: "GOOGL",
-    name: "Alphabet Inc.",
-    quantity: 50,
-    buyPrice: 120.0,
-    currentPrice: 135.8,
-    marketValue: 6790,
-    bookValue: 6000,
-    unrealizedPnL: 790,
-    realizedPnL: 0,
-    totalReturn: 790,
-    totalReturnPercent: 13.17,
-    currency: "USD",
-    sector: "Technology",
+    name: "Johnson & Johnson",
+    symbol: "JNJ",
     assetClass: "Equity",
-    purchaseDate: "2023-08-22",
-    holdingPeriod: 152,
-    beta: 1.05,
-    delta: 0.68,
+    quantity: 40,
+    buyPrice: 160,
+    currentPrice: 158,
+    marketValue: 6320,
+    bookValue: 6400,
+    unrealizedPnL: -80,
+    realizedPnL: 0,
+    totalReturn: -80,
+    totalReturnPercent: -1.25,
+    currency: "USD",
+    sector: "Healthcare",
+    purchaseDate: "2024-03-05",
+    holdingPeriod: 165,
+    beta: 0.7,
   },
+
+  // --- Bond ---
   {
     id: "4",
-    symbol: "TSLA",
-    name: "Tesla Inc.",
-    quantity: 25,
-    buyPrice: 200.0,
-    currentPrice: 185.3,
-    marketValue: 4632.5,
-    bookValue: 5000,
-    unrealizedPnL: -367.5,
+    name: "US Treasury Bond 10Y",
+    symbol: "UST10Y",
+    assetClass: "Bond",
+    quantity: 10000,
+    buyPrice: 98.5,
+    currentPrice: 99.2,
+    marketValue: 9920,
+    bookValue: 9850,
+    unrealizedPnL: 70,
     realizedPnL: 0,
-    totalReturn: -367.5,
-    totalReturnPercent: -7.35,
+    totalReturn: 70,
+    totalReturnPercent: 0.71,
     currency: "USD",
-    sector: "Consumer Discretionary",
-    assetClass: "Equity",
-    purchaseDate: "2023-09-15",
-    holdingPeriod: 128,
-    beta: 2.15,
-    delta: 0.45,
+    purchaseDate: "2023-06-01",
+    holdingPeriod: 450,
+    couponRate: 3.5,
+    maturityDate: "2033-06-01",
+    accruedInterest: 120.5,
   },
   {
     id: "5",
-    symbol: "SPY",
-    name: "SPDR S&P 500 ETF Trust",
-    quantity: 100,
-    buyPrice: 420.0,
-    currentPrice: 445.6,
-    marketValue: 44560,
-    bookValue: 42000,
-    unrealizedPnL: 2560,
+    name: "Corporate Bond - Apple Inc.",
+    symbol: "AAPL-BOND",
+    assetClass: "Bond",
+    quantity: 5000,
+    buyPrice: 102,
+    currentPrice: 101,
+    marketValue: 5050,
+    bookValue: 5100,
+    unrealizedPnL: -50,
     realizedPnL: 0,
-    totalReturn: 2560,
-    totalReturnPercent: 6.1,
+    totalReturn: -50,
+    totalReturnPercent: -0.98,
     currency: "USD",
-    sector: "ETF",
-    assetClass: "Equity",
-    purchaseDate: "2023-04-01",
-    holdingPeriod: 295,
-    beta: 1.0,
-    delta: 0.95,
+    purchaseDate: "2024-01-10",
+    holdingPeriod: 225,
+    couponRate: 4.0,
+    maturityDate: "2029-01-10",
+    accruedInterest: 75,
+  },
+  {
+    id: "6",
+    name: "Municipal Bond - NY City",
+    symbol: "NYMUNI",
+    assetClass: "Bond",
+    quantity: 3000,
+    buyPrice: 101.5,
+    currentPrice: 103,
+    marketValue: 3090,
+    bookValue: 3045,
+    unrealizedPnL: 45,
+    realizedPnL: 0,
+    totalReturn: 45,
+    totalReturnPercent: 1.48,
+    currency: "USD",
+    purchaseDate: "2023-12-01",
+    holdingPeriod: 270,
+    couponRate: 2.75,
+    maturityDate: "2032-12-01",
+    accruedInterest: 60,
+  },
+
+  // --- Commodity ---
+  {
+    id: "7",
+    name: "Gold Futures",
+    symbol: "XAUUSD",
+    assetClass: "Commodity",
+    quantity: 2,
+    buyPrice: 1950,
+    currentPrice: 2000,
+    marketValue: 4000,
+    bookValue: 3900,
+    unrealizedPnL: 100,
+    realizedPnL: 0,
+    totalReturn: 100,
+    totalReturnPercent: 2.56,
+    currency: "USD",
+    purchaseDate: "2024-03-10",
+    holdingPeriod: 150,
+    expiryDate: "2024-10-25"
+  },
+  {
+    id: "8",
+    name: "Crude Oil Futures",
+    symbol: "CL",
+    assetClass: "Commodity",
+    quantity: 1,
+    buyPrice: 75,
+    currentPrice: 78,
+    marketValue: 7800,
+    bookValue: 7500,
+    unrealizedPnL: 300,
+    realizedPnL: 0,
+    totalReturn: 300,
+    totalReturnPercent: 4.00,
+    currency: "USD",
+    purchaseDate: "2024-04-20",
+    holdingPeriod: 130,
+    expiryDate: "2024-11-20"
+  },
+  {
+    id: "9",
+    name: "Silver Futures",
+    symbol: "XAGUSD",
+    assetClass: "Commodity",
+    quantity: 3,
+    buyPrice: 24,
+    currentPrice: 23.5,
+    marketValue: 70.5,
+    bookValue: 72,
+    unrealizedPnL: -1.5,
+    realizedPnL: 0,
+    totalReturn: -1.5,
+    totalReturnPercent: -2.08,
+    currency: "USD",
+    purchaseDate: "2024-05-10",
+    holdingPeriod: 100,
+    expiryDate: "2024-12-20"
+  },
+
+  // --- FX ---
+  {
+    id: "10",
+    name: "EUR/USD",
+    symbol: "EURUSD",
+    assetClass: "FX",
+    quantity: 10000,
+    buyPrice: 1.08,
+    currentPrice: 1.10,
+    marketValue: 11000,
+    bookValue: 10800,
+    unrealizedPnL: 200,
+    realizedPnL: 0,
+    totalReturn: 200,
+    totalReturnPercent: 1.85,
+    currency: "USD",
+    purchaseDate: "2024-04-05",
+    holdingPeriod: 120,
+    baseCurrency: "EUR",
+    quoteCurrency: "USD",
+  },
+  {
+    id: "11",
+    name: "GBP/USD",
+    symbol: "GBPUSD",
+    assetClass: "FX",
+    quantity: 8000,
+    buyPrice: 1.25,
+    currentPrice: 1.26,
+    marketValue: 10080,
+    bookValue: 10000,
+    unrealizedPnL: 80,
+    realizedPnL: 0,
+    totalReturn: 80,
+    totalReturnPercent: 0.8,
+    currency: "USD",
+    purchaseDate: "2024-05-15",
+    holdingPeriod: 100,
+    baseCurrency: "GBP",
+    quoteCurrency: "USD",
+  },
+  {
+    id: "12",
+    name: "USD/JPY",
+    symbol: "USDJPY",
+    assetClass: "FX",
+    quantity: 9000,
+    buyPrice: 140,
+    currentPrice: 138,
+    marketValue: 12420,
+    bookValue: 12600,
+    unrealizedPnL: -180,
+    realizedPnL: 0,
+    totalReturn: -180,
+    totalReturnPercent: -1.43,
+    currency: "JPY",
+    purchaseDate: "2024-06-01",
+    holdingPeriod: 85,
+    baseCurrency: "USD",
+    quoteCurrency: "JPY",
+  },
+
+  // --- ETF ---
+  {
+    id: "13",
+    name: "Vanguard Total Stock Market ETF",
+    symbol: "VTI",
+    assetClass: "ETF",
+    quantity: 20,
+    buyPrice: 210,
+    currentPrice: 220,
+    marketValue: 4400,
+    bookValue: 4200,
+    unrealizedPnL: 200,
+    realizedPnL: 0,
+    totalReturn: 200,
+    totalReturnPercent: 4.76,
+    currency: "USD",
+    purchaseDate: "2024-05-01",
+    holdingPeriod: 100,
+  },
+  {
+    id: "14",
+    name: "iShares MSCI Emerging Markets ETF",
+    symbol: "EEM",
+    assetClass: "ETF",
+    quantity: 30,
+    buyPrice: 40,
+    currentPrice: 39.5,
+    marketValue: 1185,
+    bookValue: 1200,
+    unrealizedPnL: -15,
+    realizedPnL: 0,
+    totalReturn: -15,
+    totalReturnPercent: -1.25,
+    currency: "USD",
+    purchaseDate: "2024-05-15",
+    holdingPeriod: 95,
+  },
+  {
+    id: "15",
+    name: "SPDR S&P 500 ETF Trust",
+    symbol: "SPY",
+    assetClass: "ETF",
+    quantity: 10,
+    buyPrice: 420,
+    currentPrice: 430,
+    marketValue: 4300,
+    bookValue: 4200,
+    unrealizedPnL: 100,
+    realizedPnL: 0,
+    totalReturn: 100,
+    totalReturnPercent: 2.38,
+    currency: "USD",
+    purchaseDate: "2024-06-01",
+    holdingPeriod: 85,
+  },
+
+  // --- Derivative (Option/Future) ---
+  {
+    id: "16",
+    name: "AAPL Call Option (Sep 2025, Strike 150)",
+    symbol: "AAPL220C150",
+    assetClass: "Derivative",
+    quantity: 5,
+    buyPrice: 5.0,
+    currentPrice: 6.5,
+    marketValue: 3250,
+    bookValue: 2500,
+    unrealizedPnL: 750,
+    realizedPnL: 0,
+    totalReturn: 750,
+    totalReturnPercent: 30.0,
+    currency: "USD",
+    purchaseDate: "2024-07-01",
+    holdingPeriod: 60,
+    delta: 0.65,
+    contractSize: 100,
+    expiryDate: "2025-09-20",
+  },
+  {
+    id: "17",
+    name: "S&P 500 E-mini Future",
+    symbol: "ESU25",
+    assetClass: "Derivative",
+    quantity: 1,
+    buyPrice: 4500,
+    currentPrice: 4550,
+    marketValue: 227500,
+    bookValue: 225000,
+    unrealizedPnL: 2500,
+    realizedPnL: 0,
+    totalReturn: 2500,
+    totalReturnPercent: 1.11,
+    currency: "USD",
+    purchaseDate: "2024-06-15",
+    holdingPeriod: 70,
+    delta: 1,
+    contractSize: 50,
+    expiryDate: "2025-09-15",
+  },
+  {
+    id: "18",
+    name: "TSLA Put Option (Dec 2025, Strike 600)",
+    symbol: "TSLA2512P600",
+    assetClass: "Derivative",
+    quantity: 2,
+    buyPrice: 12,
+    currentPrice: 10,
+    marketValue: 2000,
+    bookValue: 2400,
+    unrealizedPnL: -400,
+    realizedPnL: 0,
+    totalReturn: -400,
+    totalReturnPercent: -16.67,
+    currency: "USD",
+    purchaseDate: "2024-08-01",
+    holdingPeriod: 45,
+    delta: -0.4,
+    contractSize: 100,
+    expiryDate: "2025-12-20",
   },
 ];
 
@@ -176,31 +439,50 @@ export const mockCashBalances: CashBalance[] = [
 function calculateRiskMetrics(positions: Position[]): RiskMetrics {
   const totalMarketValue = positions.reduce((sum, pos) => sum + pos.marketValue, 0);
 
-  // Portfolio Beta
-  const portfolioBeta = positions.reduce((sum, pos) => sum + pos.beta * pos.marketValue, 0) / totalMarketValue;
+  // ---- Portfolio Beta (only equities have beta) ----
+  const equityPositions = positions.filter(pos => typeof pos.beta === "number");
+  const totalEquityValue = equityPositions.reduce((sum, pos) => sum + pos.marketValue, 0);
 
-  // Portfolio Delta
-  const portfolioDelta = positions.reduce((sum, pos) => sum + pos.delta * pos.marketValue, 0) / totalMarketValue;
+  const portfolioBeta = totalEquityValue > 0
+    ? equityPositions.reduce((sum, pos) => sum + (pos.beta ?? 0) * pos.marketValue, 0) / totalEquityValue
+    : 0;
 
-  // Portfolio Return (use totalReturnPercent weighted by market value)
-  const portfolioReturn = positions.reduce((sum, pos) => sum + pos.totalReturnPercent * pos.marketValue, 0) / totalMarketValue;
+  // ---- Portfolio Delta (only derivatives have delta) ----
+  const derivativePositions = positions.filter(pos => typeof pos.delta === "number");
+  const totalDerivativeValue = derivativePositions.reduce((sum, pos) => sum + pos.marketValue, 0);
 
-  // Volatility (std dev of totalReturnPercent)
+  const portfolioDelta = totalDerivativeValue > 0
+    ? derivativePositions.reduce((sum, pos) => sum + (pos.delta ?? 0) * pos.marketValue, 0) / totalDerivativeValue
+    : 0;
+
+  // ---- Portfolio Return (weighted by market value) ----
+  const portfolioReturn = totalMarketValue > 0
+    ? positions.reduce((sum, pos) => sum + (pos.totalReturnPercent ?? 0) * pos.marketValue, 0) / totalMarketValue
+    : 0;
+
+  // ---- Volatility (std dev of returns) ----
   const meanReturn = portfolioReturn;
-  const variance = positions.reduce((sum, pos) => sum + Math.pow(pos.totalReturnPercent - meanReturn, 2), 0) / positions.length;
+  const variance = positions.length > 0
+    ? positions.reduce((sum, pos) => sum + Math.pow((pos.totalReturnPercent ?? 0) - meanReturn, 2), 0) / positions.length
+    : 0;
   const volatility = Math.sqrt(variance);
 
-  // Sharpe Ratio (assume risk-free rate = 0)
+  // ---- Sharpe Ratio (assuming risk-free rate = 0) ----
   const sharpeRatio = volatility !== 0 ? portfolioReturn / volatility : 0;
 
-  // VaR 95%
+  // ---- Value-at-Risk (95%) ----
   const var95 = -1.65 * volatility;
 
-  // Max Drawdown (min of totalReturnPercent)
-  const maxDrawdown = Math.min(...positions.map(pos => pos.totalReturnPercent));
+  // ---- Max Drawdown (worst return) ----
+  const maxDrawdown = positions.length > 0
+    ? Math.min(...positions.map(pos => pos.totalReturnPercent ?? 0))
+    : 0;
 
-  // Correlation (average beta / portfolio beta)
-  const avgBeta = positions.reduce((sum, pos) => sum + pos.beta, 0) / positions.length;
+  // ---- Correlation (average beta / portfolio beta) ----
+  const avgBeta = equityPositions.length > 0
+    ? equityPositions.reduce((sum, pos) => sum + (pos.beta ?? 0), 0) / equityPositions.length
+    : 0;
+
   const correlation = portfolioBeta !== 0 ? avgBeta / portfolioBeta : 0;
 
   return {

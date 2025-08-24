@@ -2,6 +2,7 @@ export interface Position {
   id: string;
   symbol: string;
   name: string;
+
   quantity: number;
   buyPrice: number;
   currentPrice: number;
@@ -11,13 +12,26 @@ export interface Position {
   realizedPnL: number;
   totalReturn: number;
   totalReturnPercent: number;
+
   currency: string;
-  sector: string;
-  assetClass: 'Equity' | 'Bond' | 'Commodity' | 'FX' | 'Derivative';
+  sector?: string; // Optional because not all assets belong to a sector
+  assetClass: 'Equity' | 'Bond' | 'Commodity' | 'FX' | 'ETF' | 'Derivative';
+
   purchaseDate: string;
   holdingPeriod: number;
-  beta?: number;
-  delta?: number;
+
+  // Risk/derivative-specific fields
+  beta?: number;  // equities
+  delta?: number; // options
+  couponRate?: number; // bonds
+  maturityDate?: string; // bonds
+  contractSize?: number; // derivatives
+
+    // Newly added fields
+  accruedInterest?: number;   // Bonds
+  expiryDate?: string;        // Derivatives
+  baseCurrency?: string;      // FX, Derivatives
+  quoteCurrency?: string;     // FX, Derivatives
 }
 
 export interface Trade {
